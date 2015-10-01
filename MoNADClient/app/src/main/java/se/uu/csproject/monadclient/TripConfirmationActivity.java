@@ -8,14 +8,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class TripsActivity extends AppCompatActivity {
+public class TripConfirmationActivity extends AppCompatActivity {
 
     Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_trips);
+        setContentView(R.layout.activity_trip_detail);
         toolbar = (Toolbar) findViewById(R.id.actionToolBar);
         setSupportActionBar(toolbar);
 
@@ -71,5 +71,9 @@ public class TripsActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void linkToTripDetails(){
+        startActivity(new Intent(this, MainActivity.class));
     }
 }

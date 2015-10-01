@@ -15,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_search_with_recommendation);
         toolbar = (Toolbar) findViewById(R.id.actionToolBar);
         setSupportActionBar(toolbar);
 
