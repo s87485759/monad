@@ -15,6 +15,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
 import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.plus.Plus;
+import com.google.android.gms.plus.model.people.Person;
 
 /**
  * Created by caichao on 07/10/15.
@@ -144,6 +145,22 @@ public class GoogleLogIn extends Activity implements
         // account has granted any requested permissions to our app and that we were able to
         // establish a service connection to Google Play services.
 
+        //currently cannot get desired fields from PeopleApi
+        if (Plus.PeopleApi.getCurrentPerson(mGoogleApiClient) != null) {
+            Person currentPerson = Plus.PeopleApi.getCurrentPerson(mGoogleApiClient);
+            String personName = currentPerson.getDisplayName();
+            //String personPhoto = currentPerson.getImage();
+            String personGooglePlusProfile = currentPerson.getUrl();
+            Log.i("display name", personName);
+            Log.i("url", personGooglePlusProfile);
+        }else{
+            Log.i("OBS","get current person returns null");
+        }
+
+        //can get email address from AccountApi
+        String email = Plus.AccountApi.getAccountName(mGoogleApiClient);
+        Log.i("email", email);
+
         Toast.makeText(getApplicationContext(), "Sign In Successfully",
                 Toast.LENGTH_LONG).show();
         setContentView(R.layout.activity_main);
@@ -154,6 +171,7 @@ public class GoogleLogIn extends Activity implements
 
     }
 
+    @Override
     public void onConnectionFailed(ConnectionResult result) {
         if (!mIntentInProgress && result.hasResolution()) {
             try {
