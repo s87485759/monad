@@ -36,7 +36,6 @@ public class GoogleLogIn extends Activity implements
 
     /* Client used to interact with Google APIs. */
     private GoogleApiClient mGoogleApiClient;
-    private boolean mSignInClicked;
     private boolean mIntentInProgress;
 
     //  a tag when printing log messages to the console (ddms)
@@ -74,42 +73,11 @@ public class GoogleLogIn extends Activity implements
             mGoogleApiClient.disconnect();
     }
 
-    /**
-     * API to handler sign in of user If error occurs while connecting process
-     * it in processSignInError() api
-     */
-    private void processSignIn() {
-
-        if (!mGoogleApiClient.isConnecting()) {
-            processSignInError();
-            mSignInClicked = true;
-        }
-
-    }
-
-    /**
-     * API to process sign in error Handle error based on ConnectionResult
-     */
-    private void processSignInError() {
-        if (mConnectionResult != null && mConnectionResult.hasResolution()) {
-            try {
-                mIntentInProgress = true;
-                mConnectionResult.startResolutionForResult(this,
-                        SIGN_IN_REQUEST_CODE);
-            } catch (IntentSender.SendIntentException e) {
-                mIntentInProgress = false;
-                mGoogleApiClient.connect();
-            }
-        }
-    }
-
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.google_login_button) {
             onSignInClicked();
         }
-
-        // ...
     }
 
     private void onSignInClicked() {
@@ -117,9 +85,6 @@ public class GoogleLogIn extends Activity implements
         // attempt to resolve any errors that occur.
         mShouldResolve = true;
         mGoogleApiClient.connect();
-
-        // Show a message to the user that we are signing in.
-        // mStatus.setText(R.string.signing_in);
     }
 
     @Override
@@ -168,33 +133,4 @@ public class GoogleLogIn extends Activity implements
             }
         }
     }
-
-//    @Override
-//    public void onConnectionFailed(ConnectionResult connectionResult) {
-//        // Could not connect to Google Play Services.  The user needs to select an account,
-//        // grant permissions or resolve an error in order to sign in. Refer to the javadoc for
-//        // ConnectionResult to see possible error codes.
-//        Log.d(TAG, "onConnectionFailed:" + connectionResult);
-//
-//        if (!mIsResolving && mShouldResolve) {
-//            if (connectionResult.hasResolution()) {
-//                try {
-//                    connectionResult.startResolutionForResult(this, RC_SIGN_IN);
-//                    mIsResolving = true;
-//                } catch (IntentSender.SendIntentException e) {
-//                    Log.e(TAG, "Could not resolve ConnectionResult.", e);
-//                    mIsResolving = false;
-//                    mGoogleApiClient.connect();
-//                }
-//            } else {
-//                // Could not resolve the connection result, show the user an
-//                // error dialog.
-//                //showErrorDialog(connectionResult);
-//            }
-//        } else {
-//            // Show the signed-out UI
-//            // showSignedOutUI();
-//        }
-//    }
-
 }
